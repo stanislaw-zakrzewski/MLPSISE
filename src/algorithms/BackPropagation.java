@@ -1,18 +1,34 @@
 package algorithms;
 
+import dataManagement.Example;
+import dataManagement.Examples;
 import network_components.Layer;
 import network_components.Network;
 import network_components.Neuron;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class BackPropagation {
-    public static List<Double> train(Network network, List<Double> inputs, List<Double> desiredOutputs, double learningRate, double momentum) {
-        network.work(inputs);
-        List<Double> ret = calculateErrors(network, desiredOutputs);
-        updateWeights(network, inputs, learningRate, momentum);
-        return ret;
+    public static List<Double> train(Network network, Examples examples, double learningRate, double momentum) {
+        Collections.shuffle(examples);
+        List<Double> errors = new ArrayList<>();
+        for(int i = 0; i < examples.getFirst().getOutputs().size(); i++) {
+            errors.add(0.0);
+        }
+        for(Example e : examples) {
+            network.work(e.getInputs());
+            List<Double> temp = calculateErrors(network, e.getOutputs());
+            for(int i = 0; i < temp.size(); i++) {
+                errors.set(i, errors.get(i) + temp.get(i));
+            }
+            updateWeights(network, e.getInputs(), learningRate, momentum);
+        }
+        for(int i = 0; i < errors.size(); i++) {
+            errors.set(i, errors.get(i)/examples.size());
+        }
+        return errors;
     }
 
     private static List<Double> calculateErrors(Network network, List<Double> desiredOutputs) {

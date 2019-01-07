@@ -20,10 +20,9 @@ public class Main {
         double learningRate = 0.01;
         double momentum = 0;
 
-        for(int i = 0; i < 100000; i++) {
+        for(int i = 0; i < 100; i++) {
             errorX.add(Double.valueOf(Integer.toString(i)));
-            Example e = examples.getRandom();
-            Double d = BackPropagation.train(network, e.getInputs(), e.getOutputs(), learningRate, momentum).get(0);
+            Double d = BackPropagation.train(network, examples, learningRate, momentum).get(0);
             errorY.add(d);
             System.out.println(d);
             //if(i > 100) learningRate *= 0.96;
