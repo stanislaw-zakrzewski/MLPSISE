@@ -13,11 +13,11 @@ public class Main {
 
         for(int i = 0; i < 100; i++) {
             Example e = examples.getRandom();
-            System.out.println(BackPropagation.train(network, e.getInputs(), e.getOutputs(), 0.01).get(0));
+            System.out.println(BackPropagation.train(network, e.getInputs(), e.getOutputs(), 0.00001).get(0));
         }
 
         List<Double> inputs = new ArrayList<>();
-        inputs.add(49.0);
+        inputs.add(9.0);
 
         System.out.println(network.work(inputs));
     }
