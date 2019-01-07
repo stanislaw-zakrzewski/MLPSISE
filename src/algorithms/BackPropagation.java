@@ -45,12 +45,12 @@ public class BackPropagation {
                 for(int i = 0; i < neuron.size(); i++) {
                     double momentumWeight = momentum * (neuron.get(i) - neuron.getPreviousWeights().get(i));
                     neuron.getPreviousWeights().set(i, neuron.get(i));
-                    neuron.updateWeight(i, 2 * learning_rate * neuron.getError() * inputs.get(i));
+                    neuron.updateWeight(i, learning_rate * neuron.getError() * inputs.get(i));
                     neuron.updateWeight(i, momentumWeight);
                 }
                 double momentumBias = momentum * (neuron.getBias() - neuron.getPreviousBias());
                 neuron.setPreviousBias(neuron.getBias());
-                neuron.updateBias(2 * learning_rate * neuron.getError());
+                neuron.updateBias(learning_rate * neuron.getError());
                 neuron.updateBias(momentumBias);
                 newInputs.add(neuron.getfValue());
             }

@@ -11,22 +11,22 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        Network network = new Network(1,1,2,100);
+        Network network = new Network(1,1,2,50);
         Examples examples = new Examples("data.txt");
 
         List<Double> errorX = new ArrayList<>();
         List<Double> errorY = new ArrayList<>();
 
-        double learningRate = 0.001;
+        double learningRate = 0.01;
         double momentum = 0;
 
-        for(int i = 0; i < 300; i++) {
+        for(int i = 0; i < 100000; i++) {
             errorX.add(Double.valueOf(Integer.toString(i)));
             Example e = examples.getRandom();
             Double d = BackPropagation.train(network, e.getInputs(), e.getOutputs(), learningRate, momentum).get(0);
             errorY.add(d);
             System.out.println(d);
-            if(i > 100) learningRate *= 0.96;
+            //if(i > 100) learningRate *= 0.96;
             //System.out.println("lr" + learningRate);
         }
 
@@ -52,7 +52,7 @@ public class Main {
 
         //Plot Drawing
         Plot plot = Plot.plot(null)
-                .yAxis("Błąd", Plot.axisOpts().range(0, 10))
+                .yAxis("Błąd", null)
                 .xAxis("Epoki", null)
                 .series("Błąd", Plot.data().xy(errorX, errorY), null);
 

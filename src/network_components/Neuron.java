@@ -23,9 +23,9 @@ public class Neuron extends LinkedList<Double> {
         previousWeights = new ArrayList<>();
         for (int i = 0; i < weightCount; i++) {
             previousWeights.add(0.0);
-            add(random.nextDouble());
+            add(random.nextDouble()-0.5);
         }
-        bias = random.nextDouble();
+        bias = random.nextDouble()-0.5;
     }
 
     public double work(List<Double> inputs) {
