@@ -10,6 +10,7 @@ public class Examples extends LinkedList<Example> {
     public Examples(String path) {
         try {
             Scanner scanner = new Scanner(new File(path));
+            scanner.useLocale(Locale.US);
             while (scanner.hasNext()) {
                 List<Double> inputs = new ArrayList<>();
                 inputs.add(scanner.nextDouble());
