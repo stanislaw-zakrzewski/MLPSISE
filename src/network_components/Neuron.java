@@ -2,6 +2,7 @@ package network_components;
 
 import functions.Function;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -11,13 +12,17 @@ public class Neuron extends LinkedList<Double> {
     private double fValue;
     private double dValue;
     private double error;
+    private List<Double> previousWeights;
+    private double previousBias;
     private Function function;
 
     public Neuron(int weightCount, Function function) {
         this.function = function;
         error = 0;
         Random random = new Random();
+        previousWeights = new ArrayList<>();
         for (int i = 0; i < weightCount; i++) {
+            previousWeights.add(0.0);
             add(random.nextDouble());
         }
         bias = random.nextDouble();
@@ -60,5 +65,17 @@ public class Neuron extends LinkedList<Double> {
 
     public void updateWeight(int index, double valueToAdd) {
         set(index, get(index) + valueToAdd);
+    }
+
+    public List<Double> getPreviousWeights() {
+        return previousWeights;
+    }
+
+    public void setPreviousBias(double previousBias) {
+        this.previousBias = previousBias;
+    }
+
+    public double getPreviousBias() {
+        return previousBias;
     }
 }

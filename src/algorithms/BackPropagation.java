@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BackPropagation {
-    public static List<Double> train(Network network, List<Double> inputs, List<Double> desiredOutputs, double learningRate) {
+    public static List<Double> train(Network network, List<Double> inputs, List<Double> desiredOutputs, double learningRate, double momentum) {
         network.work(inputs);
         List<Double> ret = calculateErrors(network, desiredOutputs);
-        updateWeights(network, inputs, learningRate);
+        updateWeights(network, inputs, learningRate, momentum);
         return ret;
     }
 
@@ -38,14 +38,20 @@ public class BackPropagation {
         return errors;
     }
 
-    private static void updateWeights(Network network, List<Double> inputs, double learning_rate) {
+    private static void updateWeights(Network network, List<Double> inputs, double learning_rate, double momentum) {
         for(Layer layer : network) {
             List<Double> newInputs = new ArrayList<>();
             for(Neuron neuron : layer) {
                 for(int i = 0; i < neuron.size(); i++) {
+                    double momentumWeight = momentum * (neuron.get(i) - neuron.getPreviousWeights().get(i));
+                    neuron.getPreviousWeights().set(i, neuron.get(i));
                     neuron.updateWeight(i, 2 * learning_rate * neuron.getError() * inputs.get(i));
+                    neuron.updateWeight(i, momentumWeight);
                 }
+                double momentumBias = momentum * (neuron.getBias() - neuron.getPreviousBias());
+                neuron.setPreviousBias(neuron.getBias());
                 neuron.updateBias(2 * learning_rate * neuron.getError());
+                neuron.updateBias(momentumBias);
                 newInputs.add(neuron.getfValue());
             }
             inputs = newInputs;

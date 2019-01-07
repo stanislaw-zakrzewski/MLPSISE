@@ -10,18 +10,22 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        Network network = new Network(1,1,2,20);
+        Network network = new Network(1,1,2,100);
         Examples examples = new Examples("data.txt");
 
         List<Double> errorX = new ArrayList<>();
         List<Double> errorY = new ArrayList<>();
 
+        double learningRate = 0.000001;
+        double momentum = 0;
+
         for(int i = 0; i < 100; i++) {
             errorX.add(Double.valueOf(Integer.toString(i)));
             Example e = examples.getRandom();
-            Double d = BackPropagation.train(network, e.getInputs(), e.getOutputs(), 0.00001).get(0);
+            Double d = BackPropagation.train(network, e.getInputs(), e.getOutputs(), learningRate, momentum).get(0);
             errorY.add(d);
             System.out.println(d);
+            System.out.println("lr" + learningRate);
         }
 
         List<Double> inputs = new ArrayList<>();
