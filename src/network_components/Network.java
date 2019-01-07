@@ -15,7 +15,7 @@ public class Network extends LinkedList<Layer> {
         for (int i = 0; i < hiddenLayersCount - 2; i++) {
             add(new Layer(neuronOnHuddenLayerCount, neuronOnHuddenLayerCount, sigmoidFunction));
         }
-        add(new Layer(outputCount, outputCount, linearFunction));
+        add(new Layer(outputCount, neuronOnHuddenLayerCount, linearFunction));
     }
 
     public List<Double> work(List<Double> inputs) {
