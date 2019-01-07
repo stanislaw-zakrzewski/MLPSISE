@@ -11,7 +11,7 @@ public class Examples extends LinkedList<Example> {
         try {
             Scanner scanner = new Scanner(new File(path));
             scanner.useLocale(Locale.US);
-            while (scanner.hasNext()) {
+            while (scanner.hasNextDouble()) {
                 List<Double> inputs = new ArrayList<>();
                 inputs.add(scanner.nextDouble());
                 List<Double> outputs = new ArrayList<>();

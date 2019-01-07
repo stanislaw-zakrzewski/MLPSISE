@@ -17,16 +17,17 @@ public class Main {
         List<Double> errorX = new ArrayList<>();
         List<Double> errorY = new ArrayList<>();
 
-        double learningRate = 0.000001;
+        double learningRate = 0.001;
         double momentum = 0;
 
-        for(int i = 0; i < 100; i++) {
+        for(int i = 0; i < 300; i++) {
             errorX.add(Double.valueOf(Integer.toString(i)));
             Example e = examples.getRandom();
             Double d = BackPropagation.train(network, e.getInputs(), e.getOutputs(), learningRate, momentum).get(0);
             errorY.add(d);
             System.out.println(d);
-            System.out.println("lr" + learningRate);
+            if(i > 100) learningRate *= 0.96;
+            //System.out.println("lr" + learningRate);
         }
 
         List<Double> inputs = new ArrayList<>();

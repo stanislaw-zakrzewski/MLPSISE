@@ -8,6 +8,6 @@ public class LinearFunction implements Function {
 
     @Override
     public double derivativeValue(double x) {
-        return 1;
+        return 1.0;
     }
 }
