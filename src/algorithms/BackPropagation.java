@@ -8,16 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BackPropagation {
-    public static void train(Network network, List<Double> inputs, List<Double> desiredOutputs, double learningRate) {
+    public static List<Double> train(Network network, List<Double> inputs, List<Double> desiredOutputs, double learningRate) {
         network.work(inputs);
-        calculateErrors(network, desiredOutputs);
+        List<Double> ret = calculateErrors(network, desiredOutputs);
         updateWeights(network, inputs, learningRate);
+        return ret;
     }
 
-    private static void calculateErrors(Network network, List<Double> desiredOutputs) {
+    private static List<Double> calculateErrors(Network network, List<Double> desiredOutputs) {
+        List<Double> errors = new ArrayList<>();
         Layer currentLayer = network.getLast();
         for (int i = 0; i < currentLayer.size(); i++) {
             double error = desiredOutputs.get(i) - currentLayer.get(i).getfValue();
+            errors.add(Math.pow(error, 2));
             currentLayer.get(i).setError(error * currentLayer.get(i).getdValue());
         }
 
@@ -32,6 +35,7 @@ public class BackPropagation {
                 currentLayer.get(j).setError(error * currentLayer.get(j).getdValue());
             }
         }
+        return errors;
     }
 
     private static void updateWeights(Network network, List<Double> inputs, double learning_rate) {
