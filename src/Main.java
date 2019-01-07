@@ -4,6 +4,7 @@ import dataManagement.Examples;
 import network_components.Network;
 import plot.Plot;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +34,33 @@ public class Main {
 
         System.out.println(network.work(inputs));
 
+        //List
+        List<Double> x = new ArrayList<>();
+        List<Double> spqr = new ArrayList<>();
+        List<Double> networkSPQR = new ArrayList<>();
+        for (int i=1;i<101;i++) {
+            x.add(Double.valueOf(Integer.toString(i)));
+        }
+        for (int i=0;i<100;i++) {
+            spqr.add(Math.sqrt(x.get(i)));
+            List<Double> tmp = new ArrayList<>();
+            tmp.add(x.get(i));
+            networkSPQR.add(network.work(tmp).get(0));
+            tmp.clear();
+        }
+
         //Plot Drawing
-        Plot plot = Plot.plot(null).yAxis("Błąd", Plot.axisOpts().range(0, 10)) .series("Błąd", Plot.data().xy(errorX, errorY), null);
+        Plot plot = Plot.plot(null)
+                .yAxis("Błąd", Plot.axisOpts().range(0, 10))
+                .xAxis("Epoki", null)
+                .series("Błąd", Plot.data().xy(errorX, errorY), null);
+
+        Plot plot2 = Plot.plot(Plot.plotOpts().legend(Plot.LegendFormat.RIGHT))
+                .series("SPQR", Plot.data().xy(x, spqr), Plot.seriesOpts().color(Color.BLACK))
+                .series("NetworkSPQR", Plot.data().xy(x, networkSPQR), Plot.seriesOpts().color(Color.MAGENTA));
         try {
             plot.save("ErrorPlot", "png");
+            plot2.save("ResultPlot", "png");
         } catch (IOException e) {
             e.printStackTrace();
         }
