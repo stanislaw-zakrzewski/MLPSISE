@@ -18,21 +18,18 @@ public class Main {
         List<Double> errorY = new ArrayList<>();
 
         double learningRate = 0.01;
-        double momentum = 0;
+        double momentum = 0.5;
 
         for(int i = 0; i < 100; i++) {
             errorX.add(Double.valueOf(Integer.toString(i)));
             Double d = BackPropagation.train(network, examples, learningRate, momentum).get(0);
             errorY.add(d);
-            System.out.println(d);
-            //if(i > 100) learningRate *= 0.96;
-            //System.out.println("lr" + learningRate);
         }
 
         List<Double> inputs = new ArrayList<>();
         inputs.add(9.0);
 
-        System.out.println(network.work(inputs));
+        network.work(inputs);
 
         //List
         List<Double> x = new ArrayList<>();
@@ -56,8 +53,8 @@ public class Main {
                 .series("Błąd", Plot.data().xy(errorX, errorY), null);
 
         Plot plot2 = Plot.plot(Plot.plotOpts().legend(Plot.LegendFormat.RIGHT))
-                .series("SPQR", Plot.data().xy(x, spqr), Plot.seriesOpts().color(Color.BLACK))
-                .series("NetworkSPQR", Plot.data().xy(x, networkSPQR), Plot.seriesOpts().color(Color.MAGENTA));
+                .series("SQRT", Plot.data().xy(x, spqr), Plot.seriesOpts().color(Color.BLACK))
+                .series("NetworkSQRT", Plot.data().xy(x, networkSPQR), Plot.seriesOpts().color(Color.MAGENTA));
         try {
             plot.save("ErrorPlot", "png");
             plot2.save("ResultPlot", "png");
